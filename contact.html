@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Alto Packers & Movers | Get a free, no-obligation quote for your relocation. Headquartered in Vadodara, serving Gujarat and beyond.">
+  <meta name="theme-color" content="#0B1120">
+  <meta property="og:title" content="Contact Us | Alto Packers & Movers">
+  <meta property="og:description" content="Request a free quote for your move. Fast, transparent, and no hidden charges.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&h=630&fit=crop">
+  <title>Contact Us | Alto Packers & Movers - Free Quote</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="header__container">
+      <div class="header__logo">
+        <div class="logo">
+          <div class="logo__text">ALTO</div>
+          <div class="logo__subtext">Packers & Movers</div>
+        </div>
+      </div>
+      
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav" id="nav">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="about.html" class="nav__link">About</a>
+        <a href="services.html" class="nav__link">Services</a>
+        <a href="service-areas.html" class="nav__link">Service Areas</a>
+        <a href="contact.html" class="nav__link nav__link--active">Contact</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="tel:+918000709840" class="header__phone" aria-label="Call Alto Packers">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>+91 8000709840</span>
+        </a>
+        <a href="contact.html" class="btn btn--primary">Get Free Quote</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- INNER PAGE HERO -->
+  <section class="inner-hero">
+    <div class="inner-hero__content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span>Contact</span>
+      </div>
+      <h1 class="inner-hero__title">Get in Touch</h1>
+      <p class="inner-hero__subtitle">Get a free, no-obligation quote for your relocation today</p>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- LEFT: FORM -->
+        <div class="contact-form-wrapper">
+          <h2 class="section__title">Request Your Free Quote</h2>
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name *</label>
+              <input type="text" id="name" name="name" class="form-input" placeholder="Your name" required>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone" class="form-label">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 " required>
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="service" class="form-label">Service Needed *</label>
+              <select id="service" name="service" class="form-input form-select" required>
+                <option value="">Select a service</option>
+                <option value="household">Household Relocation</option>
+                <option value="office">Office Relocation</option>
+                <option value="vehicle">Vehicle Shifting</option>
+                <option value="loading">Loading & Unloading</option>
+                <option value="packing">Packing & Unpacking</option>
+                <option value="warehouse">Warehouse Services</option>
+                <option value="wooden">Wooden Packing</option>
+                <option value="unsure">Not Sure</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="from" class="form-label">Moving From *</label>
+                <input type="text" id="from" name="from" class="form-input" placeholder="e.g. Vadodara, Ahmedabad, Surat..." required>
+              </div>
+              <div class="form-group">
+                <label for="to" class="form-label">Moving To *</label>
+                <input type="text" id="to" name="to" class="form-input" placeholder="e.g. Ahmedabad, Mumbai, Delhi..." required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="message" class="form-label">Message</label>
+              <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tell us about your move..." rows="5"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--large form-submit">Request Free Quote</button>
+            
+            <div class="form-message form-message--hidden" id="formMessage">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <p>Thank you! Your quote request has been received. We'll contact you shortly with a detailed estimate.</p>
+            </div>
+
+            <!-- TODO: connect this form to a real backend or a service like Formspree / Getform / EmailJS before going live -->
+            <p class="form-disclaimer">We respect your privacy. Your information will only be used to provide you with a quote.</p>
+          </form>
+        </div>
+
+        <!-- RIGHT: CONTACT INFO -->
+        <div class="contact-info-wrapper">
+          <h2 class="section__title">Contact Information</h2>
+
+          <div class="contact-info-cards">
+            <div class="info-card">
+              <div class="info-card__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="info-card__title">Call Us</h3>
+                <a href="tel:+918000709840" class="info-card__link">+91 8000709840</a>
+                <p class="info-card__note">Mon-Sat, 9 AM - 6 PM</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22 6 12 13 2 6"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h3 class="info-card__title">Email Us</h3>
+                <a href="mailto:altopacker@yahoo.com" class="info-card__link">altopacker@yahoo.com</a>
+                <p class="info-card__note">We reply within 2 hours</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div>
+                <h3 class="info-card__title">Visit Us</h3>
+                <p class="info-card__address">221 - Aristo, Kabir Road, Navrachana University Road, Opp. Sanghavi SKY-2, Bhayli TP-2, Vadodara</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="info-card__icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-9.746 9.798c0 2.718.738 5.33 2.139 7.592l-2.26 6.541 6.753-2.212c2.215 1.201 4.708 1.86 7.298 1.86 9.616 0 17.450-7.83 17.450-17.45 0-4.647-1.876-9.03-5.286-12.313-3.41-3.282-7.994-5.087-12.848-5.087"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="info-card__title">WhatsApp Us</h3>
+                <a href="https://wa.me/918000709840?text=Hello%20Alto%20Packers%20%26%20Movers%21%20I%20need%20help%20with%20my%20move." class="btn btn--primary btn--small" target="_blank" rel="noopener noreferrer">Chat Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section class="map-section">
+    <div class="container">
+      <h2 class="section__title">Find Us</h2>
+      <!-- TODO: replace with exact Google Maps embed link for 221 - Aristo, Kabir Road, Navrachana University Road, Bhayli TP-2, Vadodara -->
+      <iframe class="map-embed" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3672.9347852045806!2d73.16721872345346!3d22.309567711110843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395fcab4c4a5a5a5%3A0x5a5a5a5a5a5a5a5a!2sVadodara%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1234567890" width="100%" height="400" style="border:0;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,0.1);" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section__header">
+        <h2 class="section__title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-accordion" id="faqAccordion">
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span>How far in advance should I book my move?</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-item__content">
+            <p>We recommend booking at least 2-3 weeks in advance for household moves and 1 month for large office relocations. For urgent moves, we can often accommodate same-week or next-week scheduling depending on availability. Call us to discuss your specific needs.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span>Do you provide packing materials?</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-item__content">
+            <p>Yes! We provide all packing materials including corrugated boxes, bubble wrap, foam padding, protective paper, and specialty crating for delicate items. These costs are included in your quote. You can also opt to arrange your own materials and choose our loading/unloading service only.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span>Is my shipment insured?</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-item__content">
+            <p>Absolutely. All shipments are fully insured for their declared value. We provide comprehensive coverage for household goods, office equipment, vehicles, and special items. Insurance is included in our service. In case of any damage, we provide full compensation as per the terms of the insurance policy.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span>Do you operate outside Vadodara and Gujarat?</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-item__content">
+            <p>Yes! While we are headquartered in Vadodara, we operate across all of Gujarat and have partnerships with logistics providers across India. We can handle interstate moves to any major city—Mumbai, Delhi, Bengaluru, Pune, Hyderabad, and beyond. Contact us with your destination for a detailed quote.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-item__trigger" aria-expanded="false">
+            <span>What makes your pricing transparent?</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-item__content">
+            <p>We provide detailed, itemized quotes that break down costs for packing, transport, labor, insurance, and any special services. No hidden charges. Once you approve the quote, the price remains locked unless you request additional services. We believe in building trust through honesty and clear communication.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-banner" style="margin-top: 60px;">
+    <div class="container">
+      <h2 class="cta-banner__title">Ready to Start Your Move?</h2>
+      <p class="cta-banner__description">Get your free quote today—no obligation, no pressure, just honest service.</p>
+      <div class="cta-banner__actions">
+        <a href="contact.html" class="btn btn--secondary btn--large">Request a Quote Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__column">
+          <div class="logo logo--light">
+            <div class="logo__text">ALTO</div>
+            <div class="logo__subtext">Packers & Movers</div>
+          </div>
+          <p class="footer__tagline">Moving Dreams, Packing Perfection</p>
+          <div class="footer__socials">
+            <a href="#" aria-label="Facebook" title="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a6 6 0 0 0-6 6v3H7v4h2v8h4v-8h3l1-4h-4V8a2 2 0 0 1 2-2h1z"></path>
+              </svg>
+            </a>
+            <a href="#" aria-label="Twitter" title="Twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2s9 5 20 5a9.5 9.5 0 00-9-5.5c4.75 2.25 7-7 7-7a10.6 10.6 0 01-9.5 5"></path>
+              </svg>
+            </a>
+            <a href="#" aria-label="YouTube" title="YouTube">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+            </a>
+            <a href="#" aria-label="Instagram" title="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <circle cx="17.5" cy="6.5" r="1.5"></circle>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__title">Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="service-areas.html">Service Areas</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__title">Services</h4>
+          <ul class="footer__links">
+            <li><a href="services.html#house-shifting">Household Relocation</a></li>
+            <li><a href="services.html#office-shifting">Office Relocation</a></li>
+            <li><a href="services.html#vehicle-shifting">Vehicle Shifting</a></li>
+            <li><a href="services.html#loading-unloading">Loading & Unloading</a></li>
+            <li><a href="services.html#packing-moving">Packing & Unpacking</a></li>
+            <li><a href="services.html#warehouse-services">Warehouse Services</a></li>
+            <li><a href="services.html#wooden-packing">Wooden Packing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__column">
+          <h4 class="footer__title">Contact</h4>
+          <p class="footer__contact-item">
+            <strong>Address:</strong><br>
+            221 - Aristo, Kabir Road,<br>
+            Navrachana University Road,<br>
+            Opp. Sanghavi SKY-2,<br>
+            Bhayli TP-2, Vadodara
+          </p>
+          <p class="footer__contact-item">
+            <strong>Phone:</strong><br>
+            <a href="tel:+918000709840">+91 8000709840</a>
+          </p>
+          <p class="footer__contact-item">
+            <strong>Email:</strong><br>
+            <a href="mailto:altopacker@yahoo.com">altopacker@yahoo.com</a>
+          </p>
+          <p class="footer__contact-item">
+            <strong>Hours:</strong><br>
+            09:00 AM – 06:00 PM
+          </p>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p>&copy; 2026 Alto Packers & Movers. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Button -->
+  <a href="https://wa.me/918000709840?text=Hello%20Alto%20Packers%20%26%20Movers%21%20I%20need%20help%20with%20my%20move." class="whatsapp-btn" aria-label="Chat on WhatsApp" title="Chat with us on WhatsApp" target="_blank" rel="noopener noreferrer">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-9.746 9.798c0 2.718.738 5.33 2.139 7.592l-2.26 6.541 6.753-2.212c2.215 1.201 4.708 1.86 7.298 1.86 9.616 0 17.450-7.83 17.450-17.45 0-4.647-1.876-9.03-5.286-12.313-3.41-3.282-7.994-5.087-12.848-5.087"/>
+    </svg>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
