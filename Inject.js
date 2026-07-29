@@ -29,8 +29,6 @@ function buildBreadcrumb() {
   const fileName = segments.length > 0 ? segments[segments.length - 1] : "";
   const fileNameLower = fileName.toLowerCase();
 
- 
-
   // Fallback
   if (segments.length > 0) {
     const last = fileName.replace(".html", "");
@@ -51,8 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const needsFooter = footerEl && footerEl.innerHTML.trim() === "";
 
   const tasks = [];
-  if (needsHeader) tasks.push(loadHTML("#header", "/Header.html"));
-  if (needsFooter) tasks.push(loadHTML("#footer", "/Footer.html"));
+  if (needsHeader) tasks.push(loadHTML("#header", "Header.html"));
+  if (needsFooter) tasks.push(loadHTML("#footer", "Footer.html"));
 
   Promise.all(tasks).then(() => {
     buildBreadcrumb();
