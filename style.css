@@ -82,6 +82,7 @@ body {
   line-height: 1.6;
   color: var(--color-text-dark);
   background-color: var(--color-light);
+  overflow-x: hidden; /* safety net against any stray horizontal overflow on mobile */
 }
 
 img {
@@ -260,7 +261,7 @@ section {
   left: 0;
   right: 0;
   z-index: 1000;
-  background:#9e9e9e;
+  background: transparent;
   transition: all var(--transition-base);
   padding: var(--spacing-md) 0;
 }
@@ -272,15 +273,9 @@ section {
 
 /* Header after scroll - blurred effect */
 .header.scrolled {
-  background: #9e9e9e;
-  backdrop-filter: blur(10px);
-  padding: var(--spacing-sm) 0;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-}
-
-.header.scrolled {
   background-color: rgba(11, 17, 32, 0.95);
   backdrop-filter: blur(8px);
+  padding: var(--spacing-sm) 0;
   box-shadow: var(--shadow-md);
 }
 
@@ -296,6 +291,7 @@ section {
 
 .header__logo {
   flex-shrink: 0;
+  min-width: 0; /* allows logo text to shrink/truncate instead of forcing overflow */
 }
 
 .logo {
@@ -305,14 +301,15 @@ section {
 
 .logo__text {
   font-size: 2rem;
-  color:#D10F1A;
+  color: var(--color-accent);
   letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
 .logo__subtext {
   font-size: 0.65rem;
   font-weight: var(--font-weight-medium);
-  color: #D10F1A;
+  color: var(--color-accent);
   letter-spacing: 0.05em;
 }
 
@@ -420,7 +417,7 @@ section {
   .hamburger {
     display: flex;
   }
-  
+
   .hamburger.active span:nth-child(1) {
     transform: rotate(45deg) translate(8px, 8px);
   }
@@ -432,7 +429,19 @@ section {
   .hamburger.active span:nth-child(3) {
     transform: rotate(-45deg) translate(7px, -7px);
   }
-  
+
+  /* Logo shrinks so it never fights the hamburger for space on narrow screens */
+  .logo__text {
+    font-size: 1.25rem;
+  }
+
+  /* Phone number + Get Free Quote button are hidden from the cramped top bar
+     on mobile. They are duplicated inside the slide-out .nav menu instead
+     (see .nav__mobile-actions below), where there is room for them. */
+  .header__actions {
+    display: none;
+  }
+
   .nav {
     position: fixed;
     top: 0;
@@ -457,20 +466,29 @@ section {
   .nav__link {
     font-size: 1.25rem;
   }
-  
-  .header__actions {
+
+  /* Container for phone + CTA button when duplicated inside the mobile nav.
+     Add a <div class="nav__mobile-actions"> with the phone link and the
+     "Get Free Quote" button inside your Header.html nav element. */
+  .nav__mobile-actions {
+    display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
-    align-items: stretch;
+    margin-top: var(--spacing-lg);
+    width: 100%;
   }
-  
-  .header__phone {
-    flex-direction: column;
-    text-align: center;
+
+  .nav__mobile-actions .header__phone {
+    justify-content: center;
+    font-size: 1.1rem;
   }
-  
-  .header__phone span {
+
+  .nav__mobile-actions .header__phone span {
     display: inline;
+  }
+
+  .nav__mobile-actions .btn {
+    width: 100%;
   }
 }
 
@@ -1014,11 +1032,18 @@ section {
     padding-left: var(--spacing-lg);
     text-align: left;
   }
-  
+
+  /* Fixed: previous negative margin (-60px) pushed the circle outside the
+     viewport on narrow phones and risked causing horizontal page scroll.
+     Now sized/positioned to stay inside the container, aligned with the
+     vertical connector line above. */
   .timeline-step__number {
-    width: 80px;
-    height: 80px;
-    margin: 0 0 var(--spacing-lg) -60px;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    margin: 0 0 var(--spacing-lg) 0;
+    position: relative;
+    left: -10px;
   }
 }
 
