@@ -877,15 +877,16 @@ section {
 
 .why-choose-us__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-3xl);
-  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl) var(--spacing-2xl); /* Adds row and column gaps */
+  align-items: start;
 }
 
+/* Optional: Make each feature box take full card width cleanly */
 .feature-row {
   display: flex;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-2xl);
+  gap: var(--spacing-md);
+  margin-bottom: 0; /* Cleans up vertical stacking spacing */
 }
 
 .feature-row__icon {
