@@ -622,7 +622,7 @@ section {
   color: var(--color-text-light);
   padding: 10px var(--spacing-md) var(--spacing-xl);
   text-align: center;
-  margin-top: 60px;
+ 
 }
 
 .inner-hero__content {
