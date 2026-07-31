@@ -1,10 +1,9 @@
-cd /home/claude/site && cat > style.css << 'CSSEOF'
+
 /* ═══════════════════════════════════════════════════════════════
    ALTO PACKERS & MOVERS — PREMIUM DESIGN SYSTEM
    ═══════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Colors */
   --color-dark: #0B1120;
   --color-dark-secondary: #1E2433;
   --color-accent: #D4A94E;
@@ -14,7 +13,7 @@ cd /home/claude/site && cat > style.css << 'CSSEOF'
   --color-text-dark: #0B1120;
   --color-text-muted: #6B7280;
   --color-border: #E5E7EB;
-  
+
   /* Typography */
   --font-family-heading: 'Sora', sans-serif;
   --font-family-body: 'Inter', sans-serif;
@@ -23,7 +22,7 @@ cd /home/claude/site && cat > style.css << 'CSSEOF'
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
   --font-weight-extrabold: 800;
-  
+
   /* Sizing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -32,34 +31,28 @@ cd /home/claude/site && cat > style.css << 'CSSEOF'
   --spacing-xl: 3rem;
   --spacing-2xl: 4rem;
   --spacing-3xl: 6rem;
-  
+
   /* Border Radius */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-full: 9999px;
-  
+
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
   --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.2);
-  
+
   /* Glow effects */
   --glow-accent: 0 0 30px rgba(212, 169, 78, 0.3);
   --glow-accent-strong: 0 0 50px rgba(212, 169, 78, 0.4);
-  
+
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
   --transition-base: 250ms ease-in-out;
   --transition-slow: 350ms ease-in-out;
-}
-
-/* Noise texture overlay */
-@keyframes grain {
-  0% { background-position: 0 0; }
-  100% { background-position: 100px 100px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
