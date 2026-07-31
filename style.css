@@ -1,3 +1,4 @@
+cd /home/claude/site && cat > style.css << 'CSSEOF'
 /* ═══════════════════════════════════════════════════════════════
    ALTO PACKERS & MOVERS — PREMIUM DESIGN SYSTEM
    ═══════════════════════════════════════════════════════════════ */
@@ -2107,6 +2108,142 @@ section {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   QUOTE REQUEST MODAL (Request Quote popup)
+   ═══════════════════════════════════════════════════════════════ */
+
+.quote-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-base);
+}
+
+.quote-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quote-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 17, 32, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.quote-modal__content {
+  position: relative;
+  background: var(--color-light);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  max-width: 460px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-xl);
+  transform: translateY(30px);
+  transition: transform var(--transition-base);
+}
+
+.quote-modal.active .quote-modal__content {
+  transform: translateY(0);
+}
+
+.quote-modal__close {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--color-light-secondary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-dark);
+  transition: background-color var(--transition-base), transform var(--transition-base);
+}
+
+.quote-modal__close:hover {
+  background: var(--color-border);
+  transform: rotate(90deg);
+}
+
+.quote-modal__header {
+  margin-bottom: var(--spacing-lg);
+  padding-right: var(--spacing-xl);
+}
+
+.quote-modal__header h3 {
+  margin-bottom: var(--spacing-xs);
+  font-size: 1.5rem;
+}
+
+.quote-modal__header p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.quote-modal__form .form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.quote-modal__form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+}
+
+.quote-modal__form input,
+.quote-modal__form select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-family: var(--font-family-body);
+  font-size: 0.95rem;
+  background-color: var(--color-text-light);
+  transition: all var(--transition-base);
+}
+
+.quote-modal__form input:focus,
+.quote-modal__form select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(212, 169, 78, 0.12);
+}
+
+.quote-modal__form .btn--block {
+  width: 100%;
+  margin-top: var(--spacing-xs);
+}
+
+.quote-modal #quoteModalMessage {
+  margin-top: var(--spacing-lg);
+}
+
+body.quote-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 480px) {
+  .quote-modal__form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .quote-modal__content {
+    padding: var(--spacing-lg);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    SCROLL REVEAL ANIMATIONS
    ═══════════════════════════════════════════════════════════════ */
 
@@ -2455,3 +2592,4 @@ textarea {
     width: 100%;
   }
 }
+
