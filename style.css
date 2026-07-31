@@ -493,12 +493,12 @@ section {
 .hero {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  /* Change min-height to a shorter viewport percentage or fixed max-height */
+  min-height: 70vh; /* Reduced from 100vh so content below is visible */
+  max-height: 600px; /* Prevents it from getting too tall on large monitors */
   display: flex;
   align-items: center;
-  justify-content: center;
   overflow: hidden;
-  margin-top: 60px;
 }
 
 .hero__video {
