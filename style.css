@@ -250,10 +250,8 @@ section {
    ═══════════════════════════════════════════════════════════════ */
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative; /* Takes up layout space so the video section sits below it */
+  width: 100%;
   z-index: 1000;
   background: #0b0e10;
   transition: all var(--transition-base);
@@ -267,6 +265,10 @@ section {
 
 /* Header after scroll - blurred effect */
 .header.scrolled {
+  position: fixed; /* Re-applies fixed overlay mode only when scrolling down */
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: rgba(11, 17, 32, 0.95);
   backdrop-filter: blur(8px);
   padding: var(--spacing-sm) 0;
@@ -493,12 +495,13 @@ section {
 .hero {
   position: relative;
   width: 100%;
-  /* Change min-height to a shorter viewport percentage or fixed max-height */
-  min-height: 70vh; /* Reduced from 100vh so content below is visible */
-  max-height: 600px; /* Prevents it from getting too tall on large monitors */
+  height: 520px; /* Reduced fixed height (Adjust this number to make it shorter/taller) */
+  min-height: auto;
+  margin-top: 0;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  justify-content: center;
+  overflow: hidden; /* Trims off video overflow cleanly at the bottom */
 }
 
 .hero__video {
@@ -508,6 +511,8 @@ section {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top; /* Anchors video to the top, trimming height strictly from the bottom */
+  animation: parallaxZoom 20s ease-out forwards;
 }
 
 .hero__overlay {
@@ -515,6 +520,12 @@ section {
   inset: 0;
   background: linear-gradient(180deg, rgba(11, 17, 32, 0.2) 0%, rgba(11, 17, 32, 0.75) 100%);
   z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 380px; /* Compact height for tablet/mobile devices */
+  }
 }
 
 /* Animated parallax on scroll */
