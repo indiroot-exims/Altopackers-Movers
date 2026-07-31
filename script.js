@@ -4,71 +4,114 @@
    ═══════════════════════════════════════════════════════════════ */
 
 // ═══════════════════════════════════════════════════════════════
-// HEADER & NAVIGATION
+// WAIT FOR HEADER/FOOTER INJECTION (Inject.js) BEFORE WIRING NAV
 // ═══════════════════════════════════════════════════════════════
+// Header.html / Footer.html are injected into #header / #footer by
+// Inject.js. If that injection happens asynchronously (fetch/include),
+// code that queries hamburger/nav elements immediately would find
+// nothing. This small helper waits until the header actually has
+// content (or a short timeout elapses) before wiring up nav behavior,
+// so the mobile menu and sticky header always work regardless of how
+// Inject.js loads the markup.
+function whenHeaderReady(callback) {
+  const headerEl = document.getElementById('header');
+  if (!headerEl) return callback();
 
-const header = document.getElementById('header');
-const hamburger = document.getElementById('hamburger');
-const nav = document.getElementById('nav');
-const hero = document.getElementById('hero');
+  if (headerEl.children.length > 0) {
+    callback();
+    return;
+  }
 
-// Determine if we're on the home page
-const isHomePage = window.location.pathname.endsWith('index.html') || 
-                   window.location.pathname === '/' || 
-                   window.location.pathname === '';
+  const observer = new MutationObserver(() => {
+    if (headerEl.children.length > 0) {
+      observer.disconnect();
+      callback();
+    }
+  });
+  observer.observe(headerEl, { childList: true });
 
-// Set header state for inner pages
-if (!isHomePage) {
-  header.classList.add('inner-page');
+  // Safety net: run anyway after 2s even if injection never fires,
+  // so the rest of the site (forms, modals, FAQ) still works.
+  setTimeout(() => {
+    observer.disconnect();
+    callback();
+  }, 2000);
 }
 
-// Sticky header on scroll with parallax effect
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 50) {
-    header.classList.add('scrolled');
-  } else {
-    header.classList.remove('scrolled');
-  }
-  
-  // Parallax effect on hero video (home page only)
-  if (isHomePage && hero) {
-    const video = hero.querySelector('.hero__video');
-    if (video) {
-      const scrollPercent = window.scrollY / window.innerHeight;
-      video.style.transform = `scale(${1 + scrollPercent * 0.1})`;
-    }
-  }
-});
+whenHeaderReady(initHeaderNav);
 
-// Hamburger menu toggle
-if (hamburger) {
-  hamburger.addEventListener('click', () => {
-    hamburger.classList.toggle('active');
-    nav.classList.toggle('active');
+function initHeaderNav() {
+  const header = document.getElementById('header');
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('nav');
+  const hero = document.getElementById('hero');
+
+  if (!header) return;
+
+  // Determine if we're on the home page
+  const isHomePage = window.location.pathname.endsWith('index.html') ||
+                     window.location.pathname === '/' ||
+                     window.location.pathname === '';
+
+  // Set header state for inner pages
+  if (!isHomePage) {
+    header.classList.add('inner-page');
+  }
+
+  // Sticky header on scroll with parallax effect
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+
+    // Parallax effect on hero video (home page only)
+    if (isHomePage && hero) {
+      const video = hero.querySelector('.hero__video');
+      if (video) {
+        const scrollPercent = window.scrollY / window.innerHeight;
+        video.style.transform = `scale(${1 + scrollPercent * 0.1})`;
+      }
+    }
   });
 
-  // Close menu when a link is clicked
-  document.querySelectorAll('.nav__link').forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
+  // Hamburger menu toggle
+  if (hamburger && nav) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      nav.classList.toggle('active');
     });
-  });
 
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!header.contains(e.target)) {
-      hamburger.classList.remove('active');
-      nav.classList.remove('active');
-    }
-  });
+    // Close menu when a link is clicked
+    document.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target)) {
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+      }
+    });
+  }
+
+  // Update active nav link based on current page
+  updateActiveNav();
+
+  // Wire up "Get Quote" trigger(s) that may live inside the injected
+  // header/mobile nav (e.g. <button data-quote-trigger> in Header.html).
+  bindQuoteTriggers(header);
 }
 
-// Update active nav link based on current page
 function updateActiveNav() {
   const currentPath = window.location.pathname;
   const currentPage = currentPath.split('/').pop() || 'index.html';
-  
+
   document.querySelectorAll('.nav__link').forEach(link => {
     const href = link.getAttribute('href');
     if (href === currentPage || (currentPage === '' && href === 'index.html')) {
@@ -79,8 +122,6 @@ function updateActiveNav() {
   });
 }
 
-updateActiveNav();
-
 // ═══════════════════════════════════════════════════════════════
 // SCROLL REVEAL ANIMATIONS
 // ═══════════════════════════════════════════════════════════════
@@ -90,18 +131,17 @@ const observerOptions = {
   rootMargin: '0px 0px -50px 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('fade-in');
-      observer.unobserve(entry.target);
+      revealObserver.unobserve(entry.target);
     }
   });
 }, observerOptions);
 
-// Observe elements for reveal
 document.querySelectorAll('section, .service-card, .value-card, .testimonial-card, .city-card').forEach(el => {
-  observer.observe(el);
+  revealObserver.observe(el);
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -109,8 +149,7 @@ document.querySelectorAll('section, .service-card, .value-card, .testimonial-car
 // ═══════════════════════════════════════════════════════════════
 
 function countUp(element, target) {
-  const duration = 2000; // 2 seconds
-  const start = 0;
+  const duration = 2000;
   const startTime = Date.now();
 
   const updateCount = () => {
@@ -129,19 +168,18 @@ function countUp(element, target) {
   updateCount();
 }
 
-// Trigger count-up when stats become visible
 document.querySelectorAll('.stat__value[data-target]').forEach(stat => {
-  const observer = new IntersectionObserver((entries) => {
+  const statObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const target = parseInt(entry.target.getAttribute('data-target'));
         countUp(entry.target, target);
-        observer.unobserve(entry.target);
+        statObserver.unobserve(entry.target);
       }
     });
   });
 
-  observer.observe(stat);
+  statObserver.observe(stat);
 });
 
 // ═══════════════════════════════════════════════════════════════
@@ -150,18 +188,21 @@ document.querySelectorAll('.stat__value[data-target]').forEach(stat => {
 
 const videoBtn = document.getElementById('videoBtn');
 const videoModal = document.getElementById('videoModal');
-const closeModal = document.getElementById('closeModal');
+const closeVideoModal = document.getElementById('closeModal');
 
 if (videoBtn && videoModal) {
-  videoBtn.addEventListener('click', () => {
+  videoBtn.addEventListener('click', (e) => {
+    e.preventDefault();
     videoModal.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
 
-  closeModal.addEventListener('click', () => {
-    videoModal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-  });
+  if (closeVideoModal) {
+    closeVideoModal.addEventListener('click', () => {
+      videoModal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    });
+  }
 
   videoModal.addEventListener('click', (e) => {
     if (e.target === videoModal) {
@@ -171,7 +212,6 @@ if (videoBtn && videoModal) {
   });
 }
 
-// Close modal on ESC key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && videoModal && videoModal.classList.contains('active')) {
     videoModal.classList.remove('active');
@@ -183,20 +223,16 @@ document.addEventListener('keydown', (e) => {
 // FAQ ACCORDION
 // ═══════════════════════════════════════════════════════════════
 
-const faqItems = document.querySelectorAll('.faq-item__trigger');
-
-faqItems.forEach(trigger => {
+document.querySelectorAll('.faq-item__trigger').forEach(trigger => {
   trigger.addEventListener('click', () => {
     const faqItem = trigger.parentElement;
     const isActive = faqItem.classList.contains('active');
 
-    // Close all other items
     document.querySelectorAll('.faq-item').forEach(item => {
       item.classList.remove('active');
       item.querySelector('.faq-item__trigger').setAttribute('aria-expanded', 'false');
     });
 
-    // Toggle current item
     if (!isActive) {
       faqItem.classList.add('active');
       trigger.setAttribute('aria-expanded', 'true');
@@ -205,12 +241,9 @@ faqItems.forEach(trigger => {
 });
 
 // ═══════════════════════════════════════════════════════════════
-// CONTACT FORM HANDLING & VALIDATION
+// SHARED FORM VALIDATION HELPERS
 // ═══════════════════════════════════════════════════════════════
 
-const contactForm = document.getElementById('contactForm');
-
-// Form validation functions
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
@@ -240,7 +273,221 @@ function clearFieldError(field) {
   field.classList.remove('error');
 }
 
-// Add real-time validation
+function validateFormFields(form) {
+  const fields = form.querySelectorAll('input[required], textarea[required], select[required]');
+  let isValid = true;
+
+  fields.forEach(field => {
+    if (!field.value.trim()) {
+      showFieldError(field, 'This field is required');
+      isValid = false;
+    } else if (field.type === 'email' && !validateEmail(field.value)) {
+      showFieldError(field, 'Please enter a valid email address');
+      isValid = false;
+    } else if (field.type === 'tel' && !validatePhone(field.value)) {
+      showFieldError(field, 'Please enter a valid phone number');
+      isValid = false;
+    } else {
+      clearFieldError(field);
+    }
+  });
+
+  return isValid;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TRACKING & ANALYTICS PLACEHOLDER
+// ═══════════════════════════════════════════════════════════════
+
+function trackEvent(eventName, eventData) {
+  // TODO: Connect to Google Ads conversion tracking / GA4 / Mixpanel, etc.
+  // For Google Ads conversion tracking, fire gtag('event', 'conversion', {...}) here.
+  console.log('Event tracked:', eventName, eventData);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EMAILJS INTEGRATION (placeholder — wire up once EmailJS account
+   and template IDs are confirmed).
+
+   Steps to activate later:
+   1. Add to <head> of every page:
+      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+   2. Call emailjs.init("YOUR_PUBLIC_KEY") once, e.g. at the top of this file.
+   3. Replace the sendLeadEmail() body below with:
+      return emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", data);
+   ═══════════════════════════════════════════════════════════════ */
+function sendLeadEmail(data) {
+  // TODO: Replace with real EmailJS call. Currently resolves immediately
+  // so the UI flow (success message, reset) can be fully tested end-to-end
+  // before the EmailJS account is connected.
+  console.log('[Lead captured — EmailJS not yet connected]', data);
+  return Promise.resolve({ status: 200, text: 'OK (stub)' });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HERO INSTANT QUOTE FORM (index.html)
+// ═══════════════════════════════════════════════════════════════
+
+const heroQuoteForm = document.getElementById('heroQuoteForm');
+
+if (heroQuoteForm) {
+  heroQuoteForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!validateFormFields(heroQuoteForm)) return;
+
+    const formData = new FormData(heroQuoteForm);
+    const data = {
+      source: 'Hero Instant Quote Form',
+      moveFrom: formData.get('moveFrom'),
+      moveTo: formData.get('moveTo'),
+      moveType: formData.get('moveType'),
+      phoneNumber: formData.get('phoneNumber')
+    };
+
+    const submitBtn = heroQuoteForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    sendLeadEmail(data).then(() => {
+      trackEvent('hero_quote_submit', data);
+      submitBtn.textContent = '✓ Request Received!';
+      heroQuoteForm.reset();
+
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }, 3000);
+    }).catch(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Something went wrong sending your request. Please call us directly at +91 9974900165.');
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUOTE REQUEST MODAL (Request Quote popup — all pages)
+// ═══════════════════════════════════════════════════════════════
+
+const quoteModal = document.getElementById('quoteModal');
+const quoteModalForm = document.getElementById('quoteModalForm');
+const quoteModalMessage = document.getElementById('quoteModalMessage');
+
+function openQuoteModal() {
+  if (!quoteModal) return;
+  quoteModal.classList.add('active');
+  quoteModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('quote-modal-open');
+
+  // Reset to form view every time it's opened fresh
+  if (quoteModalForm) {
+    quoteModalForm.style.display = 'grid';
+  }
+  if (quoteModalMessage) {
+    quoteModalMessage.classList.add('form-message--hidden');
+    quoteModalMessage.classList.remove('show');
+  }
+
+  trackEvent('quote_modal_open', { page: window.location.pathname });
+
+  // Focus first field for accessibility / faster typing
+  const firstField = quoteModal.querySelector('input, select');
+  if (firstField) setTimeout(() => firstField.focus(), 100);
+}
+
+function closeQuoteModalFn() {
+  if (!quoteModal) return;
+  quoteModal.classList.remove('active');
+  quoteModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('quote-modal-open');
+}
+
+// Bind any element with [data-quote-trigger] to open the modal.
+// This is exported so header/footer nav (injected later) can also use it.
+function bindQuoteTriggers(scope) {
+  const root = scope || document;
+  root.querySelectorAll('[data-quote-trigger]').forEach(el => {
+    if (el.dataset.quoteBound === 'true') return;
+    el.dataset.quoteBound = 'true';
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      openQuoteModal();
+    });
+  });
+}
+
+// Bind triggers already present in the main document body on load
+document.addEventListener('DOMContentLoaded', () => {
+  bindQuoteTriggers(document);
+});
+// Also bind immediately in case DOMContentLoaded already fired
+// (script.js is loaded with `defer`, so this is a safety net only).
+bindQuoteTriggers(document);
+
+if (quoteModal) {
+  quoteModal.querySelectorAll('[data-quote-close]').forEach(el => {
+    el.addEventListener('click', closeQuoteModalFn);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && quoteModal.classList.contains('active')) {
+      closeQuoteModalFn();
+    }
+  });
+}
+
+if (quoteModalForm) {
+  quoteModalForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (!validateFormFields(quoteModalForm)) return;
+
+    const formData = new FormData(quoteModalForm);
+    const data = {
+      source: 'Quote Request Popup',
+      page: window.location.pathname,
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      service: formData.get('service'),
+      from: formData.get('from'),
+      to: formData.get('to')
+    };
+
+    const submitBtn = quoteModalForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    sendLeadEmail(data).then(() => {
+      trackEvent('quote_modal_submit', data);
+
+      quoteModalForm.style.display = 'none';
+      if (quoteModalMessage) {
+        quoteModalMessage.classList.remove('form-message--hidden');
+        quoteModalMessage.classList.add('show');
+      }
+
+      setTimeout(() => {
+        quoteModalForm.reset();
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send My Request';
+        closeQuoteModalFn();
+      }, 3000);
+    }).catch(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send My Request';
+      alert('Something went wrong sending your request. Please call us directly at +91 9974900165.');
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CONTACT PAGE — FULL FORM
+// ═══════════════════════════════════════════════════════════════
+
+const contactForm = document.getElementById('contactForm');
+
 if (contactForm) {
   const emailField = contactForm.querySelector('input[name="email"]');
   const phoneField = contactForm.querySelector('input[name="phone"]');
@@ -268,30 +515,11 @@ if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    // Validate all fields
-    const fields = contactForm.querySelectorAll('input[required], textarea[required], select[required]');
-    let isValid = true;
+    if (!validateFormFields(contactForm)) return;
 
-    fields.forEach(field => {
-      if (!field.value.trim()) {
-        showFieldError(field, 'This field is required');
-        isValid = false;
-      } else if (field.name === 'email' && !validateEmail(field.value)) {
-        showFieldError(field, 'Please enter a valid email address');
-        isValid = false;
-      } else if (field.name === 'phone' && !validatePhone(field.value)) {
-        showFieldError(field, 'Please enter a valid phone number');
-        isValid = false;
-      } else {
-        clearFieldError(field);
-      }
-    });
-
-    if (!isValid) return;
-
-    // Collect form data
     const formData = new FormData(contactForm);
     const data = {
+      source: 'Contact Page Form',
       name: formData.get('name'),
       phone: formData.get('phone'),
       email: formData.get('email'),
@@ -301,34 +529,41 @@ if (contactForm) {
       message: formData.get('message')
     };
 
-    // TODO: Send to backend service like Formspree, Getform, or EmailJS
-    console.log('Form submitted:', data);
+    const submitBtn = contactForm.querySelector('.form-submit');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    // Show success message
-    const formMessage = document.getElementById('formMessage');
-    if (formMessage) {
+    sendLeadEmail(data).then(() => {
+      trackEvent('contact_form_submit', data);
+
+      const formMessage = document.getElementById('formMessage');
       contactForm.style.display = 'none';
-      formMessage.innerHTML = `
-        <div style="text-align: center;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
-          <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem; color: #0B1120;">Thank You!</h3>
-          <p style="color: #6B7280;">We&apos;ll be in touch within 24 hours.</p>
-        </div>
-      `;
-      formMessage.classList.add('show');
-      formMessage.classList.remove('form-message--hidden');
+      if (formMessage) {
+        formMessage.innerHTML = `
+          <div style="text-align: center; width: 100%;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.5rem; color: #0B1120;">Thank You!</h3>
+            <p style="color: #6B7280;">We'll be in touch within 24 hours.</p>
+          </div>
+        `;
+        formMessage.classList.add('show');
+        formMessage.classList.remove('form-message--hidden');
+        formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
 
-      // Scroll to message
-      formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-      // Reset after 5 seconds
       setTimeout(() => {
         contactForm.style.display = 'grid';
         contactForm.reset();
-        formMessage.classList.remove('show');
-        fields.forEach(field => clearFieldError(field));
-      }, 5000);
-    }
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        if (formMessage) formMessage.classList.remove('show');
+      }, 6000);
+    }).catch(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Something went wrong sending your message. Please call us directly at +91 9974900165.');
+    });
   });
 }
 
@@ -339,11 +574,8 @@ if (contactForm) {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
     const href = this.getAttribute('href');
-    
-    // Skip if it's just "#"
-    if (href === '#') {
-      return;
-    }
+
+    if (href === '#') return;
 
     const target = document.querySelector(href);
     if (target) {
@@ -382,33 +614,28 @@ if ('IntersectionObserver' in window) {
 // ═══════════════════════════════════════════════════════════════
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize page-specific features
   initPageFeatures();
 });
 
 function initPageFeatures() {
   const currentPath = window.location.pathname;
-  
-  // HomePage specific
+
   if (currentPath.includes('index.html') || currentPath === '/' || currentPath === '') {
     initHomePage();
   }
-  
-  // Contact page specific
+
   if (currentPath.includes('contact.html')) {
     initContactPage();
   }
 }
 
 function initHomePage() {
-  // Add fade-in delays to service cards
   document.querySelectorAll('.service-card').forEach((card, index) => {
     card.style.animationDelay = `${index * 0.1}s`;
   });
 }
 
 function initContactPage() {
-  // Focus on form fields for better UX
   const phoneInput = document.querySelector('input[name="phone"]');
   if (phoneInput) {
     phoneInput.addEventListener('focus', () => {
@@ -420,7 +647,8 @@ function initContactPage() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CITY MODAL HANDLER (Service Areas Page)
+// CITY MODAL HANDLER (Service Areas Page — optional, only runs if
+// the corresponding markup exists on the page)
 // ═══════════════════════════════════════════════════════════════
 
 const cityModal = document.getElementById('cityModal');
@@ -443,36 +671,28 @@ const cityDescriptions = {
 };
 
 if (cityModal) {
-  // Open modal when city card is clicked
   document.querySelectorAll('.city-card').forEach(card => {
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
       const cityName = card.querySelector('.city-card__name')?.textContent || 'City';
-      cityModalTitle.textContent = cityName;
-      cityModalDescription.textContent = cityDescriptions[cityName] || 'Explore our relocation services in this city.';
+      if (cityModalTitle) cityModalTitle.textContent = cityName;
+      if (cityModalDescription) cityModalDescription.textContent = cityDescriptions[cityName] || 'Explore our relocation services in this city.';
       cityModal.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
   });
 
-  // Close modal
-  const closeModal = () => {
+  const closeCityModal = () => {
     cityModal.classList.remove('active');
     document.body.style.overflow = 'auto';
   };
 
-  if (cityModalClose) {
-    cityModalClose.addEventListener('click', closeModal);
-  }
+  if (cityModalClose) cityModalClose.addEventListener('click', closeCityModal);
+  if (cityModalOverlay) cityModalOverlay.addEventListener('click', closeCityModal);
 
-  if (cityModalOverlay) {
-    cityModalOverlay.addEventListener('click', closeModal);
-  }
-
-  // Close on ESC key
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && cityModal.classList.contains('active')) {
-      closeModal();
+      closeCityModal();
     }
   });
 }
@@ -489,28 +709,9 @@ window.addEventListener('afterprint', () => {
   document.body.classList.remove('printing');
 });
 
-// ═══════════════════════════════════════════════════════════════
-// UTILITY: TRACKING & ANALYTICS PLACEHOLDER
-// ═══════════════════════════════════════════════════════════════
-
-// Placeholder for analytics (replace with actual service like Google Analytics)
-function trackEvent(eventName, eventData) {
-  // TODO: Connect to analytics service (Google Analytics, Mixpanel, etc.)
-  console.log('Event tracked:', eventName, eventData);
-}
-
-// Track form submissions
-if (contactForm) {
-  contactForm.addEventListener('submit', () => {
-    trackEvent('form_submission', {
-      form: 'contact_form',
-      timestamp: new Date().toISOString()
-    });
-  });
-}
-
-// Track CTA clicks
-document.querySelectorAll('a[href="contact.html"]').forEach(link => {
+// Track CTA clicks that still point to contact.html directly
+// (e.g. contact page's own "Request a Quote Now" anchor to its form)
+document.querySelectorAll('a[href="contact.html"], a[href="#contactForm"]').forEach(link => {
   link.addEventListener('click', () => {
     trackEvent('cta_click', {
       source: link.closest('section')?.className || 'unknown'
