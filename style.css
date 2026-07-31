@@ -620,7 +620,7 @@ section {
 .inner-hero {
   background-color: var(--color-dark);
   color: var(--color-text-light);
-  padding: 120px var(--spacing-md) var(--spacing-3xl);
+  padding: 10px var(--spacing-md) var(--spacing-xl);
   text-align: center;
   margin-top: 60px;
 }
