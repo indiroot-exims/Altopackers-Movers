@@ -677,6 +677,28 @@ section {
   margin-top: var(--spacing-2xl);
 }
 
+/* Trust Strip Container */
+.trust-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 equal-width columns */
+  gap: var(--spacing-lg) var(--spacing-xl); /* Spacing between grid items */
+  align-items: center;
+}
+
+/* Trust Item Alignment */
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Mobile Responsiveness: collapses back to 1 column on small phone screens */
+@media (max-width: 576px) {
+  .trust-strip__grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+}
 /* ═══════════════════════════════════════════════════════════════
    ABOUT TEASER
    ═══════════════════════════════════════════════════════════════ */
