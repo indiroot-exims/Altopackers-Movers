@@ -351,12 +351,20 @@ function sendLeadEmail(data) {
     return Promise.reject(new Error('EmailJS SDK not loaded'));
   }
 
+  // reply_email must ALWAYS be a valid address — some mail servers (Yahoo
+  // included) will reject the entire message if Reply-To is malformed
+  // (e.g. the literal string "Not provided"). Falls back to our own
+  // business address when the customer didn't supply an email.
+  const customerEmail = data.email && data.email.trim();
+  const isValidEmail = customerEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail);
+
   const templateParams = {
     source: data.source || 'Website',
     page: data.page || window.location.pathname,
     name: data.name || 'Not provided',
     phone: data.phone || data.phoneNumber || 'Not provided',
-    email: data.email || 'Not provided',
+    email: isValidEmail ? customerEmail : 'Not provided',
+    reply_email: isValidEmail ? customerEmail : 'altopacker@yahoo.com',
     service: data.service || data.moveType || 'Not specified',
     from_location: data.from || data.moveFrom || 'Not specified',
     to_location: data.to || data.moveTo || 'Not specified',
