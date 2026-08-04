@@ -306,22 +306,64 @@ function trackEvent(eventName, eventData) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   EMAILJS INTEGRATION (placeholder — wire up once EmailJS account
-   and template IDs are confirmed).
-
-   Steps to activate later:
-   1. Add to <head> of every page:
-      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-   2. Call emailjs.init("YOUR_PUBLIC_KEY") once, e.g. at the top of this file.
-   3. Replace the sendLeadEmail() body below with:
-      return emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", data);
+   EMAILJS INTEGRATION
+   ═══════════════════════════════════════════════════════════════
+   Setup steps:
+   1. Create a free account at https://www.emailjs.com
+   2. Add an Email Service (e.g. Gmail/Outlook) -> copy the SERVICE ID
+   3. Create ONE template with these variables (used by all 3 forms
+      on this site: hero quote form, popup quote modal, contact form):
+         {{source}}        - which form the lead came from
+         {{page}}          - page path the lead was submitted from
+         {{name}}          - lead's name
+         {{phone}}         - lead's phone number
+         {{email}}         - lead's email (may be "Not provided")
+         {{service}}       - service they're interested in
+         {{from_location}} - moving from
+         {{to_location}}   - moving to
+         {{message}}       - extra message (may be a default string)
+      Set the template's "To Email" to altopacker@yahoo.com (or your
+      preferred inbox), and "Reply To" to {{email}} so you can reply
+      directly to leads who provided an email address.
+   4. Copy your Public Key from Account > General
+   5. Paste your Public Key, Service ID, and Template ID into the three
+      placeholders directly below.
    ═══════════════════════════════════════════════════════════════ */
+
+const EMAILJS_PUBLIC_KEY = "nssKz660z05BLT38V";
+const EMAILJS_SERVICE_ID = "service_ba0kjuw";
+const EMAILJS_TEMPLATE_ID = "template_nj4olag";
+
+(function initEmailJS() {
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  } else {
+    console.warn('[Alto Packers] EmailJS SDK not found — make sure the CDN <script> tag is included in <head>.');
+  }
+})();
+
+// Normalizes data from any of the 3 forms (hero form, popup modal,
+// contact form) into one consistent set of template variables, then
+// sends it through EmailJS using a single shared template.
 function sendLeadEmail(data) {
-  // TODO: Replace with real EmailJS call. Currently resolves immediately
-  // so the UI flow (success message, reset) can be fully tested end-to-end
-  // before the EmailJS account is connected.
-  console.log('[Lead captured — EmailJS not yet connected]', data);
-  return Promise.resolve({ status: 200, text: 'OK (stub)' });
+  if (typeof emailjs === 'undefined') {
+    console.error('[Alto Packers] EmailJS SDK not loaded, cannot send email.');
+    return Promise.reject(new Error('EmailJS SDK not loaded'));
+  }
+
+  const templateParams = {
+    source: data.source || 'Website',
+    page: data.page || window.location.pathname,
+    name: data.name || 'Not provided',
+    phone: data.phone || data.phoneNumber || 'Not provided',
+    email: data.email || 'Not provided',
+    service: data.service || data.moveType || 'Not specified',
+    from_location: data.from || data.moveFrom || 'Not specified',
+    to_location: data.to || data.moveTo || 'Not specified',
+    message: data.message || 'No additional message provided.'
+  };
+
+  return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -339,6 +381,7 @@ if (heroQuoteForm) {
     const formData = new FormData(heroQuoteForm);
     const data = {
       source: 'Hero Instant Quote Form',
+      name: formData.get('name'),
       moveFrom: formData.get('moveFrom'),
       moveTo: formData.get('moveTo'),
       moveType: formData.get('moveType'),
