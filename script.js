@@ -331,7 +331,7 @@ function trackEvent(eventName, eventData) {
    ═══════════════════════════════════════════════════════════════ */
 
 const EMAILJS_PUBLIC_KEY = "nssKz660z05BLT38V";
-const EMAILJS_SERVICE_ID = "service_g4oulsg";
+const EMAILJS_SERVICE_ID = "service_ba0kjuw";
 const EMAILJS_TEMPLATE_ID = "template_nj4olag";
 
 (function initEmailJS() {
@@ -580,7 +580,19 @@ if (contactForm) {
       message: formData.get('message')
     };
 
-    const submitBtn = contactForm.querySelector('.form-submit');
+    // Resilient button lookup: try the expected class first, then fall
+    // back to any submit button inside the form, so a class rename on
+    // the live page can never silently crash the handler before
+    // EmailJS is even called.
+    const submitBtn = contactForm.querySelector('.form-submit') ||
+                       contactForm.querySelector('button[type="submit"]');
+
+    if (!submitBtn) {
+      console.error('[Alto Packers] Could not find the contact form submit button. Check that the <button> element still exists inside #contactForm.');
+      alert('There is a page issue preventing submission. Please call us directly at +91 9974900165.');
+      return;
+    }
+
     const originalText = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
@@ -610,10 +622,14 @@ if (contactForm) {
         submitBtn.textContent = originalText;
         if (formMessage) formMessage.classList.remove('show');
       }, 6000);
-    }).catch(() => {
+    }).catch((err) => {
+      // Log the REAL reason to the console so future failures are
+      // immediately diagnosable instead of a generic alert.
+      console.error('[Alto Packers] Contact form send failed:', err);
       submitBtn.disabled = false;
       submitBtn.textContent = originalText;
-      alert('Something went wrong sending your message. Please call us directly at +91 9974900165.');
+      const reason = (err && (err.text || err.message)) ? `\n\nDetails: ${err.text || err.message}` : '';
+      alert('Something went wrong sending your message. Please call us directly at +91 9974900165.' + reason);
     });
   });
 }
