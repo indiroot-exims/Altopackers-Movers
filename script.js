@@ -331,7 +331,7 @@ function trackEvent(eventName, eventData) {
    ═══════════════════════════════════════════════════════════════ */
 
 const EMAILJS_PUBLIC_KEY = "nssKz660z05BLT38V";
-const EMAILJS_SERVICE_ID = "service_ba0kjuw";
+const EMAILJS_SERVICE_ID = "service_g4oulsg";
 const EMAILJS_TEMPLATE_ID = "template_nj4olag";
 
 (function initEmailJS() {
