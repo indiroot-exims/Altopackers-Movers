@@ -2619,4 +2619,18 @@ textarea {
     width: 100%;
   }
 }
+.mobile-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  z-index: 999;
+}
 
+/* Hide on Desktop and Tablet Viewports */
+@media screen and (min-width: 769px) {
+  .mobile-sticky-bar {
+    display: none !important;
+  }
+}
