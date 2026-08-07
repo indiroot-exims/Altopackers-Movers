@@ -379,49 +379,7 @@ function sendLeadEmail(data) {
   return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// HERO INSTANT QUOTE FORM (index.html)
-// ═══════════════════════════════════════════════════════════════
 
-const heroQuoteForm = document.getElementById('heroQuoteForm');
-
-if (heroQuoteForm) {
-  heroQuoteForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (!validateFormFields(heroQuoteForm)) return;
-
-    const formData = new FormData(heroQuoteForm);
-    const data = {
-      source: 'Hero Instant Quote Form',
-      name: formData.get('name'),
-      moveFrom: formData.get('moveFrom'),
-      moveTo: formData.get('moveTo'),
-      moveType: formData.get('moveType'),
-      phoneNumber: formData.get('phoneNumber')
-    };
-
-    const submitBtn = heroQuoteForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
-
-    sendLeadEmail(data).then(() => {
-      trackEvent('hero_quote_submit', data);
-      submitBtn.textContent = '✓ Request Received!';
-      heroQuoteForm.reset();
-
-      setTimeout(() => {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-      }, 3000);
-    }).catch(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-      alert('Something went wrong sending your request. Please call us directly at +91 9974900165.');
-    });
-  });
-}
 
 // ═══════════════════════════════════════════════════════════════
 // QUOTE REQUEST MODAL (Request Quote popup — all pages)
