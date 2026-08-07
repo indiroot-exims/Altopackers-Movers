@@ -537,6 +537,64 @@ if (quoteModalForm) {
     });
   });
 }
+/ ═══════════════════════════════════════════════════════════════
+// HERO INSTANT QUOTE FORM (index.html)
+// ═══════════════════════════════════════════════════════════════
+
+const heroQuoteForm = document.getElementById('heroQuoteForm');
+const heroQuoteMessage = document.getElementById('heroQuoteMessage');
+
+if (heroQuoteForm) {
+  heroQuoteForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    if (typeof validateFormFields === 'function' && !validateFormFields(heroQuoteForm)) return;
+
+    const formData = new FormData(heroQuoteForm);
+    const data = {
+      source: 'Hero Instant Quote Form',
+      page: window.location.pathname,
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      service: formData.get('service'),
+      from: formData.get('from'),
+      to: formData.get('to')
+    };
+
+    const submitBtn = heroQuoteForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    sendLeadEmail(data).then(() => {
+      if (typeof trackEvent === 'function') {
+        trackEvent('hero_quote_submit', data);
+      }
+
+      // Hide form and display success message matching modal behavior
+      heroQuoteForm.style.display = 'none';
+      if (heroQuoteMessage) {
+        heroQuoteMessage.classList.remove('form-message--hidden');
+      }
+
+      // Reset form view after 5 seconds
+      setTimeout(() => {
+        heroQuoteForm.reset();
+        heroQuoteForm.style.display = 'block';
+        if (heroQuoteMessage) {
+          heroQuoteMessage.classList.add('form-message--hidden');
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }, 5000);
+    }).catch((err) => {
+      console.error('[Alto Packers] EmailJS Error:', err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+      alert('Something went wrong sending your request. Please call us directly at +91 9974900165.');
+    });
+  });
+}
 
 // ═══════════════════════════════════════════════════════════════
 // CONTACT PAGE — FULL FORM
