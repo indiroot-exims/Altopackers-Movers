@@ -13,6 +13,11 @@
 // content (or a short timeout elapses) before wiring up nav behavior,
 // so the mobile menu and sticky header always work regardless of how
 // Inject.js loads the markup.
+
+const video = document.querySelector('.hero__video');
+if (video) {
+  video.muted = true;
+} 
 function whenHeaderReady(callback) {
   const headerEl = document.getElementById('header');
   if (!headerEl) return callback();
