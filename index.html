@@ -105,44 +105,57 @@
         </div>
       </div>
 
-      <!-- Right Side: Compact Instant Quote Form -->
-      <div class="hero__form-wrapper">
-        <form class="lead-form" id="heroQuoteForm">
-          <div class="lead-form__header">
-            <h3>Get Instant Free Quote</h3>
-            <p>Calculate your move cost in 60 seconds</p>
-          </div>
+     <!-- Right Side: Compact Instant Quote Form -->
+<div class="hero__form-wrapper">
+  <div class="quote-modal__header">
+    <h3>Get Instant Free Quote</h3>
+    <p>Calculate your move cost in 60 seconds</p>
+  </div>
 
-          <div class="form-group">
-            <input type="text" id="heroName" name="name" placeholder="Your Full Name" required>
-          </div>
+  <form class="hero__form" id="heroQuoteForm">
+    <div class="form-group">
+      <input type="text" id="heroName" name="name" class="form-control" placeholder="Your Full Name" required>
+    </div>
 
-          <div class="form-group">
-            <input type="text" id="moveFrom" name="moveFrom" placeholder="Moving From (e.g., Vadodara)" required>
-          </div>
-
-          <div class="form-group">
-            <input type="text" id="moveTo" name="moveTo" placeholder="Moving To (e.g., Ahmedabad)" required>
-          </div>
-
-          <div class="form-group">
-            <select id="moveType" name="moveType" required>
-              <option value="" disabled selected>Select Service Type</option>
-              <option value="Household Shifting">Household Relocation</option>
-              <option value="Office Shifting">Office Relocation</option>
-              <option value="Vehicle Transport">Vehicle / Car Carrier</option>
-              <option value="Warehouse / Storage">Warehouse & Storage</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="10-Digit Mobile Number" pattern="[0-9]{10}" required>
-          </div>
-
-          <button type="submit" class="btn btn--primary btn--block">Get Free Estimate</button>
-          <span class="lead-form__guarantee">🔒 100% Private & No Spam Guarantee</span>
-        </form>
+    <div class="form-row">
+      <div class="form-group">
+        <input type="tel" id="heroPhone" name="phone" class="form-control" placeholder="10-Digit Mobile Number" pattern="[0-9]{10}" required>
       </div>
+      <div class="form-group">
+        <select id="heroService" name="service" class="form-control" required>
+          <option value="" disabled selected>Select Service</option>
+          <option value="Household Shifting">Household Relocation</option>
+          <option value="Office Shifting">Office Relocation</option>
+          <option value="Vehicle Transport">Vehicle / Car Carrier</option>
+          <option value="Loading / Unloading">Loading & Unloading</option>
+          <option value="Packing / Unpacking">Packing & Unpacking</option>
+          <option value="Warehouse / Storage">Warehouse & Storage</option>
+          <option value="Not Sure">Not Sure</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <input type="text" id="heroFrom" name="from" class="form-control" placeholder="Moving From" required>
+      </div>
+      <div class="form-group">
+        <input type="text" id="heroTo" name="to" class="form-control" placeholder="Moving To" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn--primary btn--block">Get Free Estimate</button>
+    <span class="lead-form__guarantee">🔒 100% Private & No Spam Guarantee</span>
+  </form>
+
+  <!-- Success Message State -->
+  <div class="form-message form-message--hidden" id="heroQuoteMessage">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <p>Thank you! Your quote request has been received. We'll contact you shortly.</p>
+  </div>
+</div>
 
     </div>
   </div>
