@@ -18,6 +18,16 @@
   <link rel="stylesheet" href="style.css">
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+   <!-- Google Tag (gtag.js) for Google Ads Tracking -->
+  <!-- REPLACE 'AW-123456789' WITH YOUR ACTUAL GOOGLE ADS ID FROM YOUR ADS ACCOUNT -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-123456789"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-123456789');
+  </script>
 </head>
 <body>
   <!-- Header Injection -->
